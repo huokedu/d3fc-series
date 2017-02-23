@@ -95,4 +95,32 @@ describe('Auto bandwidth calculation', () => {
 
         expect(adaptee.bandwidth()).toEqual(4);
     });
+
+    it('should use unique data value', () => {
+        const adaptee = mockSeries();
+        const autoBandwidth = fc.autoBandwidth(adaptee)
+          .widthFraction(1);
+
+        autoBandwidth([0, 4, 4, 10]);
+
+        expect(adaptee.bandwidth()).toEqual(4);
+    });
+
+    it('should support series with xBandwidth and yBandwidth properties', () => {
+        const xScale = {
+            bandwidth: () => 25
+        };
+        const yScale = {
+            bandwidth: () => 45
+        };
+        const adaptee = fc.seriesCanvasHeatmap()
+          .xScale(xScale)
+          .yScale(yScale);
+        const autoBandwidth = fc.autoBandwidth(adaptee);
+
+        autoBandwidth([]);
+
+        expect(adaptee.xBandwidth()()).toEqual(25);
+        expect(adaptee.yBandwidth()()).toEqual(45);
+    });
 });
