@@ -13,7 +13,7 @@ export default (adaptee) => {
             return 10;
         }
 
-        screenValues.sort();
+        screenValues.sort((a, b) => a - b);
 
         // compute the distance between neighbouring items
         const neighbourDistances = pairs(screenValues)
